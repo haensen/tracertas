@@ -16,12 +16,23 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+include(FetchContent)
+FetchContent_Declare(
+  cppicmplib
+  GIT_REPOSITORY "https://github.com/markondej/cpp-icmplib"
+  GIT_TAG        "master"
+)
+FetchContent_MakeAvailable(cppicmplib)
+include_directories(${cppicmplib_SOURCE_DIR})
+# message(DIR="${cppicmplib_SOURCE_DIR}")
+
 add_executable(
   tracertas_test
   test/as_number_test.cpp
   test/address_test.cpp
   src/as_number.cpp
   src/address.cpp
+  src/tracert.cpp
 )
 target_link_libraries(
   tracertas_test
@@ -32,3 +43,12 @@ file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
 
 include(GoogleTest)
 gtest_discover_tests(tracertas_test)
+
+add_executable(
+  tracertas
+  src/as_number.cpp
+  src/address.cpp
+  src/tracert.cpp
+  src/main.cpp
+  src/cli.cpp
+)
