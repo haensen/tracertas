@@ -1,6 +1,5 @@
 #ifndef ADDRESS_HPP
 #define ADDRESS_HPP
-#endif
 
 #include <string>
 
@@ -27,3 +26,5 @@ class Ipv4Address {
         */
         uint32_t asUint();
 };
+
+#endif

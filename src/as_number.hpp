@@ -1,6 +1,5 @@
 #ifndef AS_NUMBER_HPP
 #define AS_NUMBER_HPP
-#endif
 
 #include <string>
 #include <vector>
@@ -25,3 +24,5 @@ class AsNumber {
         */
         int64_t getI4(std::string ipv4_address);
 };
+
+#endif
