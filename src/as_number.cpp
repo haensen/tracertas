@@ -45,7 +45,7 @@ void AsNumber::initialize() {
     file.close();
 }
 
-uint32_t AsNumber::getI4(std::string ipv4) {
+int64_t AsNumber::getI4(std::string ipv4) {
     if (isIpv4Address(ipv4) == false) {
         return -1;
     }

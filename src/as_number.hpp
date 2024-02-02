@@ -17,5 +17,5 @@ class AsNumber {
     public:
         AsNumber();
         
-        uint32_t getI4(std::string ipv4_address);
+        int64_t getI4(std::string ipv4_address);
 };
