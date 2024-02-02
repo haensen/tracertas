@@ -14,6 +14,7 @@ bool isIpv4Address(std::string str) {
 }
 
 Ipv4Address::Ipv4Address(std::string addr) {
+    // Safe the given string address to this->address in uint32_t format
     std::string numbers;
     addr += '.';
     for (int i = 0; i < addr.length(); i++) {

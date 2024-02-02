@@ -9,6 +9,7 @@ bool AsNumber::initialized = false;
 std::vector<std::map<uint32_t, uint32_t>> AsNumber::ipSpaceToAsn(33);
 
 AsNumber::AsNumber() {
+    // Load the Prefixes and ASNs only once from the file
     if (!this->initialized) {
         initialize();
         this->initialized = true;
@@ -27,20 +28,17 @@ void AsNumber::initialize() {
         file >> addressSpace;
         file >> asNumber;
 
-        // Split for example 127.0.0.0/24 to IP and mask length
+        // Split prefix for example 127.0.0.0/24 to IP and mask length
         const int delimeterInd = addressSpace.find("/");
         std::string addressStr = addressSpace.substr(0, delimeterInd);
         std::string maskLengthStr = addressSpace.substr(delimeterInd + 1, addressSpace.length());
 
-        // Add the Ip range and Asn to data structure
+        // Add the Ip prefix and Asn to data structure
         uint32_t address = Ipv4Address(addressStr).asUint();
-        int maskLength;
-        uint32_t asn;
-        maskLength = std::stoi(maskLengthStr);
-        asn = std::stoul(asNumber);
+        int maskLength = std::stoi(maskLengthStr);
+        uint32_t asn = std::stoul(asNumber);
         this->ipSpaceToAsn[maskLength][address] = asn;
     }
-
 
     file.close();
 }
@@ -51,9 +49,11 @@ int64_t AsNumber::getI4(std::string ipv4) {
     }
 
     uint32_t address = Ipv4Address(ipv4).asUint();
-
+    
     for (int i = 32; i > 0; i--) {
+        // Create subnet mask for the given address when mask is i bits long
         uint32_t maskedAddress = (0xFFFFFFFF << (32 - i)) & address;
+        // Check if the masked address corresponds to any AS prefix
         std::map<uint32_t, uint32_t>::iterator it = this->ipSpaceToAsn[i].find(maskedAddress);
         if (it != this->ipSpaceToAsn[i].end()) {
             return it->second;
