@@ -17,10 +17,12 @@ class AsNumber {
     void initialize();
 
     public:
+        static const int64_t Unknown;
+
         AsNumber();
         
         /**
-         * @returns AS number for the given address or -1 if not found.
+         * @returns AS number for the given address or AsNumber::Unknown if not found.
         */
         int64_t getI4(std::string ipv4_address);
 };

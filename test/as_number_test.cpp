@@ -9,8 +9,8 @@ TEST(AsNumberTest, ReturnsCorrectAsNumber) {
 }
 
 TEST(AsNumberTest, DetectsNonExistingAsnIP) {
-    EXPECT_EQ(AsNumber().getI4("kissa"), -1);
-    EXPECT_EQ(AsNumber().getI4("127.0.0.1"), -1);
-    EXPECT_EQ(AsNumber().getI4("50000"), -1);
-    EXPECT_EQ((long long)AsNumber().getI4("50000"), -1);
+    EXPECT_EQ(AsNumber().getI4("kissa"), AsNumber::Unknown);
+    EXPECT_EQ(AsNumber().getI4("127.0.0.1"), AsNumber::Unknown);
+    EXPECT_EQ(AsNumber().getI4("50000"), AsNumber::Unknown);
+    EXPECT_EQ((long long)AsNumber().getI4("50000"), AsNumber::Unknown);
 }

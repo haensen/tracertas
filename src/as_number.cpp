@@ -7,6 +7,7 @@
 
 bool AsNumber::initialized = false;
 std::vector<std::map<uint32_t, uint32_t>> AsNumber::ipSpaceToAsn(33);
+const int64_t AsNumber::Unknown = -1;
 
 AsNumber::AsNumber() {
     // Load the Prefixes and ASNs only once from the file
@@ -45,7 +46,7 @@ void AsNumber::initialize() {
 
 int64_t AsNumber::getI4(std::string ipv4) {
     if (isIpv4Address(ipv4) == false) {
-        return -1;
+        return AsNumber::Unknown;
     }
 
     uint32_t address = Ipv4Address(ipv4).asUint();
@@ -60,5 +61,5 @@ int64_t AsNumber::getI4(std::string ipv4) {
         }
     }
 
-    return -1;
+    return AsNumber::Unknown;
 }
