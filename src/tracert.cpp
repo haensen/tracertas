@@ -1,23 +1,21 @@
 #include "tracert.hpp"
-#include "as_number.hpp"
 #include "icmp_echo.hpp"
 
 #include <iostream>
 
-std::vector<Hop> tracert(std::string destination, std::function<std::string(std::string, int)> packetSender) {
-    std::vector<Hop> hops;
+std::vector<std::string> tracert(std::string destination, std::function<std::string(std::string, int)> packetSender) {
+    std::vector<std::string> hops;
 
     const int maxHops = 30;
     for (int i = 0; i < maxHops; i++) {
         std::string responder = packetSender(destination, i);
-
-        Hop currentHop;
-        currentHop.address = responder;
-        currentHop.asn = AsNumber().getI4(responder);
-        hops.push_back(currentHop);
+        hops.push_back(responder);
 
         if (responder == destination) break;
     }
+
+    // Trim out nonresponsive hosts from the end
+    while (hops.back() == "") hops.pop_back();
 
     return hops;
 }

@@ -1,6 +1,6 @@
 #include "cli.hpp"
 
 int main(int argc, char** argv) {
-    CLI().run();
+    CLI(std::cin).run();
     return 0;
 }

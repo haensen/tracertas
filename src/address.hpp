@@ -35,6 +35,10 @@ class Ipv4Address {
          * @returns String representation of the address eg. "192.0.0.1"
         */
         std::string asString();
+
+        bool operator<(const Ipv4Address& rhs) const {
+            return address < rhs.address;
+        }
 };
 
 #endif

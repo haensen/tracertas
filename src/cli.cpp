@@ -7,13 +7,13 @@ std::stringstream CLI::getUserLine() {
     std::cout << "Cmd: " << std::flush;
 
     std::string userLineStr;
-    std::getline(std::cin, userLineStr);
+    std::getline(istream, userLineStr);
     return std::stringstream(userLineStr);
 }
 
-void CLI::visualizeRoute(std::vector<Hop> &route) {
-    for (Hop hop : route) {
-        std::cout << hop.asn << '\t' << hop.address << std::endl;
+void CLI::visualizeRoute(std::vector<std::string> &route) {
+    for (std::string hop : route) {
+        std::cout << hop << std::endl;
     }
 }
 
@@ -35,9 +35,12 @@ void CLI::run() {
                 continue;
             }
 
-            std::vector<Hop> hops = tracert(address, sendPacket);
+            std::vector<std::string> hops = tracert(address, sendPacket);
 
             this->visualizeRoute(hops);
+            traceTree.addRoute(hops);
+        } else if (command == "s") {
+            std::cout << traceTree;
         } else {
             std::cout << "Unknown command" << std::endl;
         }
