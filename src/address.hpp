@@ -22,9 +22,19 @@ class Ipv4Address {
         Ipv4Address(std::string address);
 
         /**
+         * @param address IPv4 address as uint32_t
+        */
+        Ipv4Address(uint32_t address);
+
+        /**
          * @returns The Ipv4 address as uint32_t so that the first quad of the address is the highest byte.
         */
         uint32_t asUint();
+
+        /**
+         * @returns String representation of the address eg. "192.0.0.1"
+        */
+        std::string asString();
 };
 
 #endif

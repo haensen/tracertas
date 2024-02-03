@@ -1,6 +1,7 @@
 #include "address.hpp"
 
 #include <stdio.h>
+#include <sstream>
 
 bool isIpv4Address(std::string str) {
     int a, b, c, d;
@@ -30,4 +31,17 @@ Ipv4Address::Ipv4Address(std::string addr) {
 
 uint32_t Ipv4Address::asUint() {
     return this->address;
+}
+
+Ipv4Address::Ipv4Address(uint32_t address) {
+    this->address = address;
+}
+
+std::string Ipv4Address::asString() {
+    std::stringstream ss;
+    ss << ((address >> 24) & 0xFF) << '.';
+    ss << ((address >> 16) & 0xFF) << '.';
+    ss << ((address >> 8) & 0xFF) << '.';
+    ss << (address & 0xFF);
+    return ss.str();
 }
