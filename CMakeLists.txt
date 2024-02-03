@@ -16,27 +16,38 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+# Force the script to use FetchContent and not CPM internally to fetch asio
+option(ASIO_USE_CPM "Download Asio with CPM instead of FetchContent" OFF)
+option(
+  ASIO_CPM_FETCHCONTENT_COMPAT
+  "Should asio be declared with FetchContent functions to be compatible. This doesn't not allow CPM cache to work."
+  ON
+)
+# Download this repository
 include(FetchContent)
 FetchContent_Declare(
-  cppicmplib
-  GIT_REPOSITORY "https://github.com/markondej/cpp-icmplib"
-  GIT_TAG        "master"
+  asiocmake
+  GIT_REPOSITORY "https://github.com/OlivierLDff/asio.cmake"
+  GIT_TAG        "main"
 )
-FetchContent_MakeAvailable(cppicmplib)
-include_directories(${cppicmplib_SOURCE_DIR})
-# message(DIR="${cppicmplib_SOURCE_DIR}")
+FetchContent_MakeAvailable(asiocmake)
 
 add_executable(
   tracertas_test
   test/as_number_test.cpp
   test/address_test.cpp
+  test/protocol_headers_test.cpp
+  # test/icmp_echo_test.cpp
   src/as_number.cpp
   src/address.cpp
-  src/tracert.cpp
+  # src/tracert.cpp
+  src/protocol_headers.cpp
+  # src/icmp_echo.cpp
 )
 target_link_libraries(
   tracertas_test
   GTest::gtest_main
+  asio::asio
 )
 
 file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
@@ -51,4 +62,8 @@ add_executable(
   src/tracert.cpp
   src/main.cpp
   src/cli.cpp
+)
+target_link_libraries(
+  tracertas
+  asio::asio
 )
