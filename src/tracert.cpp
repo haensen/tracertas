@@ -1,7 +1,6 @@
 #include "tracert.hpp"
 #include "as_number.hpp"
-
-#include "icmplib.h"
+#include "icmp_echo.hpp"
 
 #include <iostream>
 
@@ -23,13 +22,7 @@ std::vector<Hop> tracert(std::string destination, std::function<std::string(std:
     return hops;
 }
 
-std::string sendPacket(std::string destination, int ttl) {
-    icmplib::PingResult result = icmplib::Ping(destination, 1, 1, ttl); // 1 second timeout
-    std::cout << (int)result.response << std::endl;
-
-    if (result.response == icmplib::PingResponseType::Success || result.response == icmplib::PingResponseType::TimeExceeded) {
-        return result.address;
-    }
-
-    return result.address;
+std::string sendPacket(std::string dest, int ttl) {
+    IcmpEcho echo(dest, ttl);
+    return echo.returnAddress();
 }

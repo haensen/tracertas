@@ -19,17 +19,14 @@ struct Hop {
 /**
  * Traceroute
  * @param destination
- * @param packetSender Function, check sendPacket below
+ * @param packetSender Function, that is given an IPv4 address and ttl, and returns the address where packet got sent back.
  * @returns route
 */
 std::vector<Hop> tracert(std::string destination, std::function<std::string(std::string, int)> packetSender);
 
 /**
- * Sends a packet to the given address with a given ttl.
- * @param destination IPv4
- * @param ttl Time To Live
- * @returns address where TTL ended, or destination if it got reached.
+ * Wrapper around IcmpEcho for tracert
 */
-std::string sendPacket(std::string destination, int ttl);
+std::string sendPacket(std::string dest, int ttl);
 
 #endif

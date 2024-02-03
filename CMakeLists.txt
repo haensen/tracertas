@@ -37,12 +37,12 @@ add_executable(
   test/as_number_test.cpp
   test/address_test.cpp
   test/protocol_headers_test.cpp
-  # test/icmp_echo_test.cpp
+  test/icmp_echo_test.cpp
   src/as_number.cpp
   src/address.cpp
   # src/tracert.cpp
   src/protocol_headers.cpp
-  # src/icmp_echo.cpp
+  src/icmp_echo.cpp
 )
 target_link_libraries(
   tracertas_test
@@ -62,6 +62,8 @@ add_executable(
   src/tracert.cpp
   src/main.cpp
   src/cli.cpp
+  src/icmp_echo.cpp
+  src/protocol_headers.cpp
 )
 target_link_libraries(
   tracertas
