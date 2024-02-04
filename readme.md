@@ -6,7 +6,8 @@
 cmake --build ./build
 ```
 
-```tracertas``` is the main program and ```tracertas_test``` runs the unit tests.
+```tracertas``` is the actual program.
+```tracertas_test``` runs the unit tests.
 
 ## Notes
 

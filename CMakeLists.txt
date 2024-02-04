@@ -16,6 +16,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+
 # Force the script to use FetchContent and not CPM internally to fetch asio
 option(ASIO_USE_CPM "Download Asio with CPM instead of FetchContent" OFF)
 option(
@@ -32,14 +33,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(asiocmake)
 
-add_executable(
-  tracertas_test
-  test/as_number_test.cpp
-  test/address_test.cpp
-  test/protocol_headers_test.cpp
-  test/icmp_echo_test.cpp
-  test/tracetree_test.cpp
-  test/cli_test.cpp
+list(APPEND commonSrc
   src/as_number.cpp
   src/address.cpp
   src/tracert.cpp
@@ -47,30 +41,38 @@ add_executable(
   src/icmp_echo.cpp
   src/tracetree.cpp
   src/cli.cpp
+)
+
+list(APPEND tests
+  test/address_test.cpp
+  test/protocol_headers_test.cpp
+  test/icmp_echo_test.cpp
+  test/as_number_test.cpp
+  test/cli_test.cpp
+  test/tracetree_test.cpp
+)
+
+add_executable(
+  tracertas_test
+  ${commonSrc}
+  ${tests}
 )
 target_link_libraries(
   tracertas_test
   GTest::gtest_main
   asio::asio
 )
-
-file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
-
 include(GoogleTest)
 gtest_discover_tests(tracertas_test)
 
 add_executable(
   tracertas
-  src/as_number.cpp
-  src/address.cpp
-  src/tracert.cpp
+  ${commonSrc}
   src/main.cpp
-  src/cli.cpp
-  src/icmp_echo.cpp
-  src/protocol_headers.cpp
-  src/tracetree.cpp
 )
 target_link_libraries(
   tracertas
   asio::asio
 )
+
+file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
