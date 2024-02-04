@@ -11,11 +11,11 @@
 */
 class CLI {
     TraceTree traceTree;
+    std::istream& istream;
 
     std::stringstream getUserLine();
     void visualizeRoute(std::vector<std::string> &route);
-
-    std::istream& istream;
+    Ipv4Address getAddress(std::string representation);
 
     public:
         CLI(std::istream& _istream) : istream(_istream) {}

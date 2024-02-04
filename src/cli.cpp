@@ -1,5 +1,6 @@
 #include "cli.hpp"
 #include "address.hpp"
+#include "dns.hpp"
 
 #include <iostream>
 
@@ -17,6 +18,14 @@ void CLI::visualizeRoute(std::vector<std::string> &route) {
     }
 }
 
+/**
+ * Converts DNS name or IPv4 address to IPv4Address
+*/
+Ipv4Address CLI::getAddress(std::string representation) {
+    if (isIpv4Address(representation)) return Ipv4Address(representation);
+    return DNS().resolve(representation);
+}
+
 void CLI::run() {
     bool running = true;
     while (running) {
@@ -28,14 +37,17 @@ void CLI::run() {
         if (command == "exit" || command == "quit") {
             running = false;
         } else if (command == "t") {
-            std::string address;
-            userLine >> address;
-            if (!isIpv4Address(address)) {
-                std::cout << "Not valid IPv4 address." << std::endl;
+            std::string addressStr;
+            userLine >> addressStr;
+
+            Ipv4Address address = getAddress(addressStr);
+
+            if (address == Ipv4Address::Nonexisting) {
+                std::cout << "Not valid IPv4 address or host name." << std::endl;
                 continue;
             }
 
-            std::vector<std::string> hops = tracert(address, sendPacket);
+            std::vector<std::string> hops = tracert(address.asString(), sendPacket);
 
             this->visualizeRoute(hops);
             traceTree.addRoute(hops);

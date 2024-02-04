@@ -16,6 +16,8 @@ class Ipv4Address {
     uint32_t address = 0;
 
     public:
+        static const Ipv4Address Nonexisting;
+
         /**
          * @param address The IPv4 Address in the most common format. Eg: 127.0.0.1
         */
@@ -38,6 +40,12 @@ class Ipv4Address {
 
         bool operator<(const Ipv4Address& rhs) const {
             return address < rhs.address;
+        }
+        bool operator==(const Ipv4Address& rhs) const {
+            return address == rhs.address;
+        }
+        bool operator!=(const Ipv4Address& rhs) const {
+            return address != rhs.address;
         }
 };
 

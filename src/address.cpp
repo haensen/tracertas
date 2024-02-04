@@ -14,8 +14,15 @@ bool isIpv4Address(std::string str) {
     return true;
 }
 
+// Check RFC 5737 regarding the choice of the IP
+const Ipv4Address Ipv4Address::Nonexisting = Ipv4Address("192.0.2.1");
+
 Ipv4Address::Ipv4Address(std::string addr) {
-    if (addr.length() == 0) return; // set address to 0.0.0.0
+    if (addr.length() == 0) {
+        *this = Nonexisting;
+        return;
+    }
+
     // Safe the given string address to this->address in uint32_t format
     std::string numbers;
     addr += '.';
@@ -39,6 +46,8 @@ Ipv4Address::Ipv4Address(uint32_t address) {
 }
 
 std::string Ipv4Address::asString() {
+    if (*this == Nonexisting) return "";
+
     std::stringstream ss;
     ss << ((address >> 24) & 0xFF) << '.';
     ss << ((address >> 16) & 0xFF) << '.';

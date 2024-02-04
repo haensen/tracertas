@@ -41,6 +41,7 @@ list(APPEND commonSrc
   src/icmp_echo.cpp
   src/tracetree.cpp
   src/cli.cpp
+  src/dns.cpp
 )
 
 list(APPEND tests
@@ -50,6 +51,7 @@ list(APPEND tests
   test/as_number_test.cpp
   test/cli_test.cpp
   test/tracetree_test.cpp
+  test/dns_test.cpp
 )
 
 add_executable(

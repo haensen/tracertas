@@ -9,6 +9,7 @@ TEST(CLI, canRunCommandsWithoutCrashing) {
     ss << "t 1.1.1.1" << std::endl;
     ss << "s" << std::endl;
     ss << "t 2.2.2.2" << std::endl;
+    ss << "t google.com" << std::endl;
     ss << "s" << std::endl;
     ss << "exit" << std::endl;
     CLI cli(ss);
