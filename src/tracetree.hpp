@@ -8,7 +8,7 @@
 #include <iostream>
 
 /**
- * Represent one hop on a route
+ * Represent one hop on a route. For internal use of the tracetree.
 */
 struct Hop {
     std::string address;
@@ -21,12 +21,20 @@ struct Hop {
     std::map<Ipv4Address, Hop> nextConnected;
 };
 
+/**
+ * Class for displaing traces in a tree format.
+*/
 class TraceTree {
     Hop root;
 
     public:
         TraceTree();
+
         void addRoute(std::vector<std::string> route);
+
+        /**
+         * Outputs a human readable representation of the tree
+        */
         friend std::ostream& operator<<(std::ostream& os, const TraceTree& tt);
 };
 

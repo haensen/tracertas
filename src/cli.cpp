@@ -16,6 +16,7 @@ void CLI::visualizeRoute(std::vector<std::string> &route) {
     for (std::string hop : route) {
         std::cout << hop << std::endl;
     }
+    std::cout << std::endl;
 }
 
 /**

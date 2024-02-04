@@ -17,18 +17,36 @@ TEST(TraceTree, constructsAndOutputsBasicTree) {
         "8.8.8.8",
         "192.168.0.1"
     };
+    std::vector<std::string> route3 {
+        "10.0.0.1",
+        "10.0.0.5",
+        "8.8.8.8",
+        "192.168.0.1"
+    };
     tTree.addRoute(route1);
     tTree.addRoute(route2);
+    tTree.addRoute(route3);
 
     std::string expectation =
-        "Root : -1\n"
-        "\t10.0.0.1 : -1\n"
-        "\t\t10.0.0.2 : -1\n"
-        "\t\t\t8.8.8.8 : 15169\n"
-        "\t\t\t\t192.168.0.1 : -1\n"
-        "\t\t\t10.0.0.3 : -1\n"
-        "\t\t\t\t10.0.0.4 : -1\n"
-        "\t\t\t\t\t10.0.0.5 : -1\n";
+        "This computer\n"
+        "|\n"
+        "'--10.0.0.1\n"
+        "   |\n"
+        "   +--10.0.0.2\n"
+        "   |  |\n"
+        "   |  +--8.8.8.8 : AS 15169\n"
+        "   |  |  |\n"
+        "   |  |  '--192.168.0.1\n"
+        "   |  '--10.0.0.3\n"
+        "   |     |\n"
+        "   |     '--10.0.0.4\n"
+        "   |        |\n"
+        "   |        '--10.0.0.5\n"
+        "   '--10.0.0.5\n"
+        "      |\n"
+        "      '--8.8.8.8 : AS 15169\n"
+        "         |\n"
+        "         '--192.168.0.1\n";
 
 
     std::stringstream ss;
