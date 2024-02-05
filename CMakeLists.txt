@@ -42,6 +42,7 @@ list(APPEND commonSrc
   src/tracetree.cpp
   src/cli.cpp
   src/dns.cpp
+  src/csv.cpp
 )
 
 list(APPEND tests
@@ -52,6 +53,7 @@ list(APPEND tests
   test/cli_test.cpp
   test/tracetree_test.cpp
   test/dns_test.cpp
+  test/csv_test.cpp
 )
 
 add_executable(
@@ -78,3 +80,13 @@ target_link_libraries(
 )
 
 file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
+
+include(FetchContent)
+FetchContent_Declare(
+  asn-info
+  GIT_REPOSITORY "https://github.com/ipverse/asn-info"
+  GIT_TAG        "master"
+)
+FetchContent_MakeAvailable(asn-info)
+
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/as.csv DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)

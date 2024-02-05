@@ -1,23 +1,26 @@
 #include "as_number.hpp"
 #include "address.hpp"
 #include "config.hpp"
+#include "csv.hpp"
 
 #include <fstream>
 #include <iostream>
 
 bool AsNumber::initialized = false;
 std::vector<std::map<uint32_t, uint32_t>> AsNumber::ipSpaceToAsn(33);
+std::map<uint32_t, std::string> AsNumber::names;
 const int64_t AsNumber::Unknown = -1;
 
 AsNumber::AsNumber() {
     // Load the Prefixes and ASNs only once from the file
     if (!this->initialized) {
-        initialize();
+        initializeNetworkToAsn();
+        initializeAsToOwner();
         this->initialized = true;
     }
 }
 
-void AsNumber::initialize() {
+void AsNumber::initializeNetworkToAsn() {
     // Open the file
     std::ifstream file(ASN_IPV4_MAPPING_FILE);
     if (!file.is_open()) {
@@ -44,7 +47,24 @@ void AsNumber::initialize() {
     file.close();
 }
 
-int64_t AsNumber::getI4(std::string ipv4) {
+void AsNumber::initializeAsToOwner() {
+    // Open the file
+    std::ifstream file(ASN_NUMBER_TO_NAME_FILE);
+    if (!file.is_open()) {
+        std::cout << "Cannot open ASN file: " << ASN_NUMBER_TO_NAME_FILE << std::endl;
+    }
+
+    CSV csv(file);
+    for (long long i = 0; i < csv.rows(); i++) {
+        uint32_t asn = std::stoll(csv.cell("asn", i));
+        std::string name = csv.cell("description", i);
+        names[asn] = name;
+    }
+
+    file.close();
+}
+
+int64_t AsNumber::getNumber(std::string ipv4) {
     if (isIpv4Address(ipv4) == false) {
         return AsNumber::Unknown;
     }
@@ -62,4 +82,12 @@ int64_t AsNumber::getI4(std::string ipv4) {
     }
 
     return AsNumber::Unknown;
+}
+
+std::string AsNumber::getName(int64_t asn) {
+    auto iter = names.find(asn);
+    if (iter != names.end()) {
+        return iter->second;
+    }
+    return "";
 }

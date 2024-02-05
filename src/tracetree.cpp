@@ -16,8 +16,8 @@ void TraceTree::addRoute(std::vector<std::string> route) {
         std::map<Ipv4Address,Hop>::iterator hopInTreeIt = prevHop->nextConnected.find(address);
         if (hopInTreeIt == prevHop->nextConnected.end()) {
             Hop hop;
-            hop.address = addrStr;
-            hop.asn = AsNumber().getI4(addrStr);
+            hop.address = (addrStr == "" ? "Unknown" : addrStr);
+            hop.asn = AsNumber().getNumber(addrStr);
             hop.previous = prevHop;
             hopInTreeIt = prevHop->nextConnected.insert({address, hop}).first;
         }
@@ -55,6 +55,7 @@ void recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, boo
     os << hop->address;
     if (hop->asn != AsNumber::Unknown) {
         os << " : AS " << hop->asn;
+        os << " " << AsNumber().getName(hop->asn);
     }
     os << std::endl;
 

@@ -13,8 +13,10 @@ class AsNumber {
 
     // usage: ipSpaceToAsn[maskLengthInBits][ip & mask] = AS number
     static std::vector<std::map<uint32_t, uint32_t>> ipSpaceToAsn;
+    static std::map<uint32_t, std::string> names;
 
-    void initialize();
+    void initializeNetworkToAsn();
+    void initializeAsToOwner();
 
     public:
         static const int64_t Unknown;
@@ -24,7 +26,12 @@ class AsNumber {
         /**
          * @returns AS number for the given address or AsNumber::Unknown if not found.
         */
-        int64_t getI4(std::string ipv4_address);
+        int64_t getNumber(std::string ipv4_address);
+
+        /**
+         * @returns short string describing the owner of the AS
+        */
+        std::string getName(int64_t asn);
 };
 
 #endif
