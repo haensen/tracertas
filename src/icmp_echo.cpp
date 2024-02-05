@@ -42,7 +42,7 @@ IcmpEcho::IcmpEcho(std::string destination, int ttl) : destination(destination) 
 
     ip::icmp::endpoint localEndpoint(ip::icmp::v4(), 0);
 
-    this->socket = &ip::icmp::socket(ioContext);
+    this->socket = new ip::icmp::socket(ioContext);
     socket->open(ip::icmp::v4());
     socket->set_option(ip::unicast::hops(ttl));
 
@@ -57,6 +57,7 @@ IcmpEcho::IcmpEcho(std::string destination, int ttl) : destination(destination) 
     ioContext.run_for(std::chrono::milliseconds(1000));
 
     socket->close();
+    delete this->socket;
 }
 
 std::string IcmpEcho::returnAddress() {

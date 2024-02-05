@@ -3,13 +3,13 @@
 #include "../src/protocol_headers.hpp"
 
 TEST(IPv4Header, Inteprets_ip4_header_correctly) {
-    char packet_bytes[] = {
+    uint8_t packet_bytes[] = {
         0x45, 0x30, 0x00, 0x5c, 0x00, 0x00, 0x00, 0x00,
         0x3b, 0x01, 0x30, 0xa3, 0x08, 0x08, 0x08, 0x08,
         0xc0, 0xa8, 0x7e, 0x16
     };
     std::stringstream instream;
-    instream.write(packet_bytes, 20);
+    instream.write((char*)packet_bytes, 20);
     IPv4Header header(instream);
 
     EXPECT_EQ(instream.peek(), EOF);
@@ -25,7 +25,7 @@ TEST(IPv4Header, Inteprets_ip4_header_correctly) {
 }
 
 TEST(IcmpHeader, Inteprets_icmp_header_correctly) {
-    char packet_bytes[] = {
+    uint8_t packet_bytes[] = {
         0x00, 0x00, 0x6e, 0xa0, 0x90, 0x5f, 0x01, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -38,7 +38,7 @@ TEST(IcmpHeader, Inteprets_icmp_header_correctly) {
     };
 
     std::stringstream instream;
-    instream.write(packet_bytes, 20);
+    instream.write((char*)packet_bytes, 20);
     IcmpHeader header(instream);
 
     EXPECT_EQ(header.type(), 0);
@@ -55,7 +55,7 @@ TEST(IcmpHeader, constructsCorrectIcmpHeader) {
     std::stringstream ostream;
     header.write(ostream);
 
-    char packet_bytes[] = {
+    uint8_t packet_bytes[] = {
         0x08, 0x00, 0xd3, 0xb7, 0x23, 0x48, 0x01, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -68,7 +68,7 @@ TEST(IcmpHeader, constructsCorrectIcmpHeader) {
     };
 
     for (int i = 0; i < 8; i++) {
-        EXPECT_EQ((uint8_t)packet_bytes[i], ostream.get());
+        EXPECT_EQ(packet_bytes[i], ostream.get());
     }
 }
 
@@ -76,7 +76,7 @@ TEST(IcmpHeader, constructsCorrectIcmpEchoRequest) {
     std::stringstream sstream;
     IcmpHeader::buildEchoRequest(0xe14a, 0x0100, sstream);
 
-    char packet_bytes[] = {
+    uint8_t packet_bytes[] = {
         0x08, 0x00, 0x15, 0xb5, 0xe1, 0x4a, 0x01, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -89,6 +89,6 @@ TEST(IcmpHeader, constructsCorrectIcmpEchoRequest) {
     };
 
     for (int i = 0; i < (8+64); i++) {
-        EXPECT_EQ((uint8_t)packet_bytes[i], sstream.get());
+        EXPECT_EQ(packet_bytes[i], sstream.get());
     }
 }

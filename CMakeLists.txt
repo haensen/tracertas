@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(TracertAs)
 
+set(RELEASE_PATH "${CMAKE_CURRENT_BINARY_DIR}/tracertas")
+
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -67,7 +69,7 @@ target_link_libraries(
   asio::asio
 )
 include(GoogleTest)
-gtest_discover_tests(tracertas_test)
+gtest_discover_tests(tracertas_test WORKING_DIRECTORY ${RELEASE_PATH})
 
 add_executable(
   tracertas
@@ -79,7 +81,14 @@ target_link_libraries(
   asio::asio
 )
 
-file(COPY ipv4_asn.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
+if (MINGW)
+  target_link_libraries(tracertas ws2_32)
+  target_link_libraries(tracertas mswsock)
+  target_link_libraries(tracertas bcrypt)
+  target_link_libraries(tracertas_test ws2_32)
+  target_link_libraries(tracertas_test mswsock)
+  target_link_libraries(tracertas_test bcrypt)
+endif()
 
 include(FetchContent)
 FetchContent_Declare(
@@ -89,4 +98,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(asn-info)
 
-file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/as.csv DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug/)
+set_target_properties(tracertas PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
+set_target_properties(tracertas_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
+
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/as.csv DESTINATION ${RELEASE_PATH})
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/LICENSE DESTINATION ${RELEASE_PATH}/LICENSE_AS_DOT_CSV)
+
+if(NOT EXISTS ${RELEASE_PATH}/asPrefixes.txt)
+  file(DOWNLOAD https://thyme.apnic.net/current/data-raw-table ${RELEASE_PATH}/asPrefixes.txt)
+endif()

@@ -6,6 +6,7 @@
 cmake --build ./build
 ```
 
+The executables will be in ```./build/tracertas/```.
 ```tracertas``` is the actual program.
 ```tracertas_test``` runs the unit tests.
 
