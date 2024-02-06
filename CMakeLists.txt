@@ -56,6 +56,7 @@ list(APPEND tests
   test/tracetree_test.cpp
   test/dns_test.cpp
   test/csv_test.cpp
+  test/prefix_container_test.cpp
 )
 
 add_executable(
@@ -97,12 +98,20 @@ FetchContent_Declare(
   GIT_TAG        "master"
 )
 FetchContent_MakeAvailable(asn-info)
+include(FetchContent)
+FetchContent_Declare(
+  ix-networks
+  GIT_REPOSITORY "https://github.com/haensen/ix-networks"
+  GIT_TAG        "main"
+)
+FetchContent_MakeAvailable(ix-networks)
 
 set_target_properties(tracertas PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
 set_target_properties(tracertas_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
 
-file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/as.csv DESTINATION ${RELEASE_PATH})
-file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src/LICENSE DESTINATION ${RELEASE_PATH}/LICENSE_AS_DOT_CSV)
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src DESTINATION ${RELEASE_PATH})
+
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/ix-networks-src DESTINATION ${RELEASE_PATH})
 
 if(NOT EXISTS ${RELEASE_PATH}/asPrefixes.txt)
   file(DOWNLOAD https://thyme.apnic.net/current/data-raw-table ${RELEASE_PATH}/asPrefixes.txt)

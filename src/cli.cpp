@@ -17,7 +17,6 @@ void CLI::showRoute(std::vector<std::string> &route) {
     for (std::string hop : route) {
         std::cout << hop << std::endl;
     }
-    std::cout << std::endl;
 }
 
 /**
@@ -35,7 +34,12 @@ std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address> route) {
 
             int64_t asn = IpInfo().getAsNumber(hop);
             if (asn != IpInfo::UnknownAsn) {
-                hopDesc << " : " << asn << " " << IpInfo().getAsName(asn);
+                hopDesc << " :AS: " << asn << " " << IpInfo().getAsName(asn);
+            }
+
+            std::string ix = IpInfo().getIx(hop);
+            if (ix != "") {
+                hopDesc << " :IX: " << ix;
             }
         }
 
@@ -74,12 +78,21 @@ void CLI::run() {
             }
 
             std::vector<Ipv4Address> hops = tracert(address, sendPacket);
-
             std::vector<std::string> descRoute = descriptiveRoute(hops);
-            this->showRoute(descRoute);
-
             // Trim out nonresponsive hosts from the end
-            while (descRoute.back() == "Unknown") descRoute.pop_back();
+            bool destinationReached = true;
+            while (descRoute.back() == "Unknown") {
+                descRoute.pop_back();
+                destinationReached = false;
+            }
+
+
+            this->showRoute(descRoute);
+            if (!destinationReached) {
+                std::cout << "Responses got lost after this point." << std::endl;
+            }
+            std::cout << std::endl;
+
             traceTree.addRoute(descRoute);
         } else if (command == "s") {
             std::cout << traceTree;

@@ -17,3 +17,9 @@ TEST(IpInfo, ReturnsCorrectAsName) {
     EXPECT_EQ(IpInfo().getAsName(1), "Level 3 Parent, LLC");
     EXPECT_EQ(IpInfo().getAsName(IpInfo::UnknownAsn), "");
 }
+
+TEST(IpInfo, ReturnsCorrectIxpName) {
+    EXPECT_EQ(IpInfo().getIx(Ipv4Address("80.249.208.1")), "AMS-IX v4");
+    EXPECT_EQ(IpInfo().getIx(Ipv4Address("127.0.0.1")), "");
+    EXPECT_EQ(IpInfo().getIx(Ipv4Address("193.110.224.1")), "FICIX2");
+}

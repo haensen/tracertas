@@ -27,35 +27,36 @@ Cmd: t 8.8.8.8
 192.168.126.152
 172.20.38.13
 172.20.38.12
-62.78.100.207
-142.250.174.235
-142.250.174.234
-142.250.225.39
-142.250.229.89
-8.8.8.8
+62.78.100.207 :AS: 16086 DNA Oyj
+142.250.174.235 :AS: 15169 Google LLC
+142.250.174.234 :AS: 15169 Google LLC
+142.250.225.39 :AS: 15169 Google LLC
+142.250.229.89 :AS: 15169 Google LLC
+8.8.8.8 :AS: 15169 Google LLC
 
 Cmd: t 8.8.4.4
 192.168.126.22
 192.168.126.152
 172.20.38.13
 172.20.38.12
-62.78.100.207
-142.250.169.179
-142.250.169.178
-142.251.53.59
-142.250.227.83
-8.8.4.4
+62.78.100.207 :AS: 16086 DNA Oyj
+142.250.169.179 :AS: 15169 Google LLC
+142.250.169.178 :AS: 15169 Google LLC
+142.251.53.59 :AS: 15169 Google LLC
+142.250.227.83 :AS: 15169 Google LLC
+8.8.4.4 :AS: 15169 Google LLC
 
 Cmd: t csc.fi
 192.168.126.22
 192.168.126.152
 172.20.38.15
 172.20.38.14
-62.78.100.207
-193.110.226.20
-193.110.226.14
-193.167.244.249
-193.167.142.241
+62.78.100.207 :AS: 16086 DNA Oyj
+193.110.226.20 :IX: FICIX1 IPv4v6
+193.110.226.14 :IX: FICIX1 IPv4v6
+193.167.244.249 :AS: 1741 CSC - Tieteen tietotekniikan keskus Oy
+193.167.142.241 :AS: 1741 CSC - Tieteen tietotekniikan keskus Oy
+Responses got lost after this point.
 
 Cmd: s
 This computer
@@ -68,39 +69,39 @@ This computer
       |  |
       |  '--172.20.38.12
       |     |
-      |     '--62.78.100.207 : AS 16086 DNA Oyj
+      |     '--62.78.100.207 :AS: 16086 DNA Oyj
       |        |
-      |        +--142.250.169.179 : AS 15169 Google LLC
+      |        +--142.250.169.179 :AS: 15169 Google LLC
       |        |  |
-      |        |  '--142.250.169.178 : AS 15169 Google LLC
+      |        |  '--142.250.169.178 :AS: 15169 Google LLC
       |        |     |
-      |        |     '--142.251.53.59 : AS 15169 Google LLC
+      |        |     '--142.251.53.59 :AS: 15169 Google LLC
       |        |        |
-      |        |        '--142.250.227.83 : AS 15169 Google LLC
+      |        |        '--142.250.227.83 :AS: 15169 Google LLC
       |        |           |
-      |        |           '--8.8.4.4 : AS 15169 Google LLC
-      |        '--142.250.174.235 : AS 15169 Google LLC
+      |        |           '--8.8.4.4 :AS: 15169 Google LLC
+      |        '--142.250.174.235 :AS: 15169 Google LLC
       |           |
-      |           '--142.250.174.234 : AS 15169 Google LLC
+      |           '--142.250.174.234 :AS: 15169 Google LLC
       |              |
-      |              '--142.250.225.39 : AS 15169 Google LLC
+      |              '--142.250.225.39 :AS: 15169 Google LLC
       |                 |
-      |                 '--142.250.229.89 : AS 15169 Google LLC
+      |                 '--142.250.229.89 :AS: 15169 Google LLC
       |                    |
-      |                    '--8.8.8.8 : AS 15169 Google LLC
+      |                    '--8.8.8.8 :AS: 15169 Google LLC
       '--172.20.38.15
          |
          '--172.20.38.14
             |
-            '--62.78.100.207 : AS 16086 DNA Oyj
+            '--62.78.100.207 :AS: 16086 DNA Oyj
                |
-               '--193.110.226.20
+               '--193.110.226.20 :IX: FICIX1 IPv4v6
                   |
-                  '--193.110.226.14
+                  '--193.110.226.14 :IX: FICIX1 IPv4v6
                      |
-                     '--193.167.244.249 : AS 1741 CSC - Tieteen tietotekniikan keskus Oy
+                     '--193.167.244.249 :AS: 1741 CSC - Tieteen tietotekniikan keskus Oy
                         |
-                        '--193.167.142.241 : AS 1741 CSC - Tieteen tietotekniikan keskus Oy
+                        '--193.167.142.241 :AS: 1741 CSC - Tieteen tietotekniikan keskus Oy
 Cmd: exit
 $>
 ```

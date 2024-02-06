@@ -2,9 +2,9 @@
 #define IP_INFO_HPP
 
 #include "address.hpp"
+#include "prefix_container.hpp"
 
 #include <string>
-#include <vector>
 #include <map>
 
 /**
@@ -13,12 +13,13 @@
 class IpInfo {
     static bool initialized;
 
-    // usage: ipSpaceToAsn[maskLengthInBits][ip & mask] = AS number
-    static std::vector<std::map<uint32_t, uint32_t>> ipSpaceToAsn;
-    static std::map<uint32_t, std::string> names;
+    static std::map<uint32_t, std::string> asNames;
+    static PrefixContainer<int64_t> asNumbers;
+    static PrefixContainer<std::string> ixNames;
 
     void initializeNetworkToAsn();
     void initializeAsToOwner();
+    void initializeIpToIx();
 
     public:
         static const int64_t UnknownAsn;
@@ -34,6 +35,11 @@ class IpInfo {
          * @returns short string describing the owner of the AS
         */
         std::string getAsName(int64_t asn);
+
+        /**
+         * @returns short string naming the IXP or empty if address is not IX peering router
+        */
+        std::string getIx(Ipv4Address addr);
 };
 
 #endif
