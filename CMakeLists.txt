@@ -36,7 +36,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(asiocmake)
 
 list(APPEND commonSrc
-  src/as_number.cpp
+  src/ip_info.cpp
   src/address.cpp
   src/tracert.cpp
   src/protocol_headers.cpp
@@ -51,7 +51,7 @@ list(APPEND tests
   test/address_test.cpp
   test/protocol_headers_test.cpp
   test/icmp_echo_test.cpp
-  test/as_number_test.cpp
+  test/ip_info_test.cpp
   test/cli_test.cpp
   test/tracetree_test.cpp
   test/dns_test.cpp

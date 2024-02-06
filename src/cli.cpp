@@ -1,8 +1,9 @@
 #include "cli.hpp"
-#include "address.hpp"
 #include "dns.hpp"
+#include "ip_info.hpp"
 
 #include <iostream>
+#include <sstream>
 
 std::stringstream CLI::getUserLine() {
     std::cout << "Cmd: " << std::flush;
@@ -12,11 +13,35 @@ std::stringstream CLI::getUserLine() {
     return std::stringstream(userLineStr);
 }
 
-void CLI::visualizeRoute(std::vector<std::string> &route) {
+void CLI::showRoute(std::vector<std::string> &route) {
     for (std::string hop : route) {
         std::cout << hop << std::endl;
     }
     std::cout << std::endl;
+}
+
+/**
+ * @returns Same route with more info
+*/
+std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address> route) {
+    std::vector<std::string> descriptive;
+    for (auto hop : route) {
+        std::stringstream hopDesc;
+
+        if (hop == Ipv4Address::Nonexisting) {
+            hopDesc << "Unknown";
+        } else {
+            hopDesc << hop.asString();
+
+            int64_t asn = IpInfo().getAsNumber(hop);
+            if (asn != IpInfo::UnknownAsn) {
+                hopDesc << " : " << asn << " " << IpInfo().getAsName(asn);
+            }
+        }
+
+        descriptive.push_back(hopDesc.str());
+    }
+    return descriptive;
 }
 
 /**
@@ -48,10 +73,14 @@ void CLI::run() {
                 continue;
             }
 
-            std::vector<std::string> hops = tracert(address.asString(), sendPacket);
+            std::vector<Ipv4Address> hops = tracert(address, sendPacket);
 
-            this->visualizeRoute(hops);
-            traceTree.addRoute(hops);
+            std::vector<std::string> descRoute = descriptiveRoute(hops);
+            this->showRoute(descRoute);
+
+            // Trim out nonresponsive hosts from the end
+            while (descRoute.back() == "Unknown") descRoute.pop_back();
+            traceTree.addRoute(descRoute);
         } else if (command == "s") {
             std::cout << traceTree;
         } else {

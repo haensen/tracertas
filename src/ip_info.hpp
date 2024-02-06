@@ -1,14 +1,16 @@
-#ifndef AS_NUMBER_HPP
-#define AS_NUMBER_HPP
+#ifndef IP_INFO_HPP
+#define IP_INFO_HPP
+
+#include "address.hpp"
 
 #include <string>
 #include <vector>
 #include <map>
 
 /**
- * A class for checking which Autonomous System owns a given IP address.
+ * A class for getting info about IP addresses such as AS number
 */
-class AsNumber {
+class IpInfo {
     static bool initialized;
 
     // usage: ipSpaceToAsn[maskLengthInBits][ip & mask] = AS number
@@ -19,19 +21,19 @@ class AsNumber {
     void initializeAsToOwner();
 
     public:
-        static const int64_t Unknown;
+        static const int64_t UnknownAsn;
 
-        AsNumber();
+        IpInfo();
         
         /**
-         * @returns AS number for the given address or AsNumber::Unknown if not found.
+         * @returns AS number for the given address or AsNumber::UnknownAsn if not found.
         */
-        int64_t getNumber(std::string ipv4_address);
+        int64_t getAsNumber(Ipv4Address ipv4_address);
 
         /**
          * @returns short string describing the owner of the AS
         */
-        std::string getName(int64_t asn);
+        std::string getAsName(int64_t asn);
 };
 
 #endif

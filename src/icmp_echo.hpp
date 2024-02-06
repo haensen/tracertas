@@ -1,6 +1,8 @@
 #ifndef ICMP_ECHO_HPP
 #define ICMP_ECHO_HPP
 
+#include "address.hpp"
+
 #include <asio.hpp>
 
 #include <string>
@@ -9,7 +11,6 @@
 class IcmpEcho {
     asio::ip::icmp::socket* socket;
     asio::io_context ioContext;
-    std::string destination;
 
     uint16_t identifier = 0xbeef;
     uint16_t sequenceNumber = 1;
@@ -17,7 +18,7 @@ class IcmpEcho {
     asio::streambuf replyBuffer;
 
     bool received = false;
-    std::string replyAddress = "";
+    Ipv4Address replyAddress = Ipv4Address::Nonexisting;
 
     void openSocket();
     void receivePacket(std::size_t length);
@@ -28,12 +29,12 @@ public:
      * @param destination IPv4
      * @param ttl Time To Live
     */
-    IcmpEcho(std::string destination, int ttl);
+    IcmpEcho(Ipv4Address destination, int ttl);
 
     /**
-     * @returns address where TTL ended, or destination if it got reached. Empty if we got no response.
+     * @returns address where TTL ended, or destination if it got reached. IPv4Address::Nonexisting if we did not get response.
     */
-    std::string returnAddress();
+    Ipv4Address returnAddress();
 };
 
 #endif

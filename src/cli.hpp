@@ -3,6 +3,7 @@
 
 #include "tracert.hpp"
 #include "tracetree.hpp"
+#include "address.hpp"
 
 #include <sstream>
 
@@ -14,7 +15,8 @@ class CLI {
     std::istream& istream;
 
     std::stringstream getUserLine();
-    void visualizeRoute(std::vector<std::string> &route);
+    void showRoute(std::vector<std::string> &route);
+    std::vector<std::string> descriptiveRoute(std::vector<Ipv4Address> route);
     Ipv4Address getAddress(std::string representation);
 
     public:

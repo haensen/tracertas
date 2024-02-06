@@ -18,7 +18,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
 
     if (icmpHeader.type() == IcmpHeader::echoReply) {
         if (icmpHeader.identifier() == this->identifier) {
-            this->replyAddress = Ipv4Address(ipHeader.source()).asString();
+            this->replyAddress = Ipv4Address(ipHeader.source());
         }
     } else if (icmpHeader.type() == IcmpHeader::timeExceeded) {
         // Start of the packet is included in the icmp tll exceeded message
@@ -26,7 +26,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
         IcmpHeader originalIcmpHeader(reply);
 
         if (originalIcmpHeader.identifier() == this->identifier) {
-            this->replyAddress = Ipv4Address(ipHeader.source()).asString();
+            this->replyAddress = Ipv4Address(ipHeader.source());
         }
     } else {
         // Not found: Check the next packet
@@ -36,9 +36,9 @@ void IcmpEcho::receivePacket(std::size_t length) {
 }
 
 
-IcmpEcho::IcmpEcho(std::string destination, int ttl) : destination(destination) {
+IcmpEcho::IcmpEcho(Ipv4Address destination, int ttl) {
     ip::icmp::resolver resolver(ioContext);
-    ip::icmp::endpoint endpoint = *resolver.resolve(ip::icmp::v4(), this->destination, "").begin();
+    ip::icmp::endpoint endpoint = *resolver.resolve(ip::icmp::v4(), destination.asString(), "").begin();
 
     ip::icmp::endpoint localEndpoint(ip::icmp::v4(), 0);
 
@@ -60,6 +60,6 @@ IcmpEcho::IcmpEcho(std::string destination, int ttl) : destination(destination) 
     delete this->socket;
 }
 
-std::string IcmpEcho::returnAddress() {
+Ipv4Address IcmpEcho::returnAddress() {
     return this->replyAddress;
 }

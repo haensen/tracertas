@@ -11,14 +11,13 @@
  * Represent one hop on a route. For internal use of the tracetree.
 */
 struct Hop {
-    std::string address;
-    /**
-     * Autonomous system number
-    */
-    int64_t asn;
+    std::string description;
 
     Hop* previous;
-    std::map<Ipv4Address, Hop> nextConnected;
+    struct CmpByIpOrStr {
+        bool operator()(const std::string& a, const std::string& b) const;
+    };
+    std::map<std::string, Hop, Hop::CmpByIpOrStr> nextConnected;
 };
 
 /**

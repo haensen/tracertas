@@ -3,24 +3,21 @@
 
 #include <iostream>
 
-std::vector<std::string> tracert(std::string destination, std::function<std::string(std::string, int)> packetSender) {
-    std::vector<std::string> hops;
+std::vector<Ipv4Address> tracert(Ipv4Address destination, std::function<Ipv4Address(Ipv4Address, int)> packetSender) {
+    std::vector<Ipv4Address> hops;
 
     const int maxHops = 30;
     for (int i = 0; i < maxHops; i++) {
-        std::string responder = packetSender(destination, i);
+        Ipv4Address responder = packetSender(destination, i);
         hops.push_back(responder);
 
         if (responder == destination) break;
     }
 
-    // Trim out nonresponsive hosts from the end
-    while (hops.back() == "") hops.pop_back();
-
     return hops;
 }
 
-std::string sendPacket(std::string dest, int ttl) {
-    IcmpEcho echo(dest, ttl);
-    return echo.returnAddress();
+Ipv4Address sendPacket(Ipv4Address dest, int ttl) {
+    IcmpEcho echo(Ipv4Address(dest), ttl);
+    return echo.returnAddress().asString();
 }

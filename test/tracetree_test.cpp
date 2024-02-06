@@ -19,7 +19,7 @@ TEST(TraceTree, constructsAndOutputsBasicTree) {
     };
     std::vector<std::string> route3 {
         "10.0.0.1",
-        "",
+        "Unknown",
         "8.8.8.8",
         "192.168.0.1"
     };
@@ -34,7 +34,7 @@ TEST(TraceTree, constructsAndOutputsBasicTree) {
         "   |\n"
         "   +--10.0.0.2\n"
         "   |  |\n"
-        "   |  +--8.8.8.8 : AS 15169 Google LLC\n"
+        "   |  +--8.8.8.8\n"
         "   |  |  |\n"
         "   |  |  '--192.168.0.1\n"
         "   |  '--10.0.0.3\n"
@@ -44,7 +44,7 @@ TEST(TraceTree, constructsAndOutputsBasicTree) {
         "   |        '--10.0.0.5\n"
         "   '--Unknown\n"
         "      |\n"
-        "      '--8.8.8.8 : AS 15169 Google LLC\n"
+        "      '--8.8.8.8\n"
         "         |\n"
         "         '--192.168.0.1\n";
 

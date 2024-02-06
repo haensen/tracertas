@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * For reading CSV-files
+*/
 class CSV {
     std::vector<std::string> headers;
     std::vector<std::vector<std::string>> cells;
