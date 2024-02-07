@@ -13,8 +13,8 @@ std::stringstream CLI::getUserLine() {
     return std::stringstream(userLineStr);
 }
 
-void CLI::showRoute(std::vector<std::string> &route) {
-    for (std::string hop : route) {
+void CLI::showRoute(std::vector<std::string>& route) {
+    for (std::string& hop : route) {
         std::cout << hop << std::endl;
     }
 }
@@ -22,7 +22,7 @@ void CLI::showRoute(std::vector<std::string> &route) {
 /**
  * @returns Same route with more info
 */
-std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address> route) {
+std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address>& route) {
     std::vector<std::string> descriptive;
     for (auto hop : route) {
         std::stringstream hopDesc;
@@ -51,7 +51,7 @@ std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address> route) {
 /**
  * Converts DNS name or IPv4 address to IPv4Address
 */
-Ipv4Address CLI::getAddress(std::string representation) {
+Ipv4Address CLI::getAddress(std::string& representation) {
     if (isIpv4Address(representation)) return Ipv4Address(representation);
     return DNS().resolve(representation);
 }
@@ -66,10 +66,9 @@ void CLI::run() {
 
         if (command == "exit" || command == "quit") {
             running = false;
-        } else if (command == "t") {
+        } else if (command == "t") { // traceroute
             std::string addressStr;
             userLine >> addressStr;
-
             Ipv4Address address = getAddress(addressStr);
 
             if (address == Ipv4Address::Nonexisting) {
@@ -77,7 +76,9 @@ void CLI::run() {
                 continue;
             }
 
+            // Trace the route
             std::vector<Ipv4Address> hops = tracert(address, sendPacket);
+            // Add info to the route
             std::vector<std::string> descRoute = descriptiveRoute(hops);
             // Trim out nonresponsive hosts from the end
             bool destinationReached = true;
@@ -86,15 +87,16 @@ void CLI::run() {
                 destinationReached = false;
             }
 
-
+            // Show the route to the user
             this->showRoute(descRoute);
             if (!destinationReached) {
                 std::cout << "Responses got lost after this point." << std::endl;
             }
             std::cout << std::endl;
 
+            // Add route to the trace tree
             traceTree.addRoute(descRoute);
-        } else if (command == "s") {
+        } else if (command == "s") { // Show trace tree
             std::cout << traceTree;
         } else {
             std::cout << "Unknown command" << std::endl;

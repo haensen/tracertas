@@ -5,7 +5,7 @@
 
 bool isIpv4Address(std::string str) {
     int a, b, c, d;
-    int scanned = sscanf(str.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d);
+    int scanned = sscanf_s(str.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d);
     if (scanned != 4) return false;
     if (a < 0 || a > 255) return false;
     if (b < 0 || b > 255) return false;
@@ -23,10 +23,10 @@ Ipv4Address::Ipv4Address(std::string addr) {
         return;
     }
 
-    // Safe the given string address to this->address in uint32_t format
+    // Safe the given string address to this->address in binary format
     std::string numbers;
     addr += '.';
-    for (int i = 0; i < addr.length(); i++) {
+    for (uint32_t i = 0; i < addr.length(); i++) {
         if (addr[i] == '.') {
             uint8_t byte = std::stoi(numbers);
             this->address = this->address << 8 | byte;

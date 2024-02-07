@@ -1,6 +1,6 @@
 #include "protocol_headers.hpp"
  
-IPv4Header::IPv4Header(std::istream &instream) {
+IPv4Header::IPv4Header(std::istream& instream) {
     // Read the first fixed 20 bytes from the header
     instream.read(reinterpret_cast<char*>(this->raw), 20);
 

@@ -15,38 +15,38 @@ bool isIpv4Address(std::string str);
 class Ipv4Address {
     uint32_t address = 0;
 
-    public:
-        static const Ipv4Address Nonexisting;
+public:
+    static const Ipv4Address Nonexisting;
 
-        /**
-         * @param address The IPv4 Address in the most common format. Eg: 127.0.0.1
-        */
-        Ipv4Address(std::string address);
+    /**
+     * @param address The IPv4 Address in the most common format. Eg: 127.0.0.1
+    */
+    Ipv4Address(std::string address);
 
-        /**
-         * @param address IPv4 address as uint32_t
-        */
-        Ipv4Address(uint32_t address);
+    /**
+     * @param address IPv4 address as uint32_t
+    */
+    Ipv4Address(uint32_t address);
 
-        /**
-         * @returns The Ipv4 address as uint32_t so that the first quad of the address is the highest byte.
-        */
-        uint32_t asUint();
+    /**
+     * @returns The Ipv4 address as uint32_t so that the first quad of the address is the highest byte.
+    */
+    uint32_t asUint();
 
-        /**
-         * @returns String representation of the address eg. "192.0.0.1"
-        */
-        std::string asString();
+    /**
+     * @returns String representation of the address eg. "192.0.0.1"
+    */
+    std::string asString();
 
-        bool operator<(const Ipv4Address& rhs) const {
-            return address < rhs.address;
-        }
-        bool operator==(const Ipv4Address& rhs) const {
-            return address == rhs.address;
-        }
-        bool operator!=(const Ipv4Address& rhs) const {
-            return address != rhs.address;
-        }
+    bool operator<(const Ipv4Address& rhs) const {
+        return address < rhs.address;
+    }
+    bool operator==(const Ipv4Address& rhs) const {
+        return address == rhs.address;
+    }
+    bool operator!=(const Ipv4Address& rhs) const {
+        return address != rhs.address;
+    }
 };
 
 #endif

@@ -17,10 +17,8 @@ class IcmpEcho {
 
     asio::streambuf replyBuffer;
 
-    bool received = false;
     Ipv4Address replyAddress = Ipv4Address::Nonexisting;
 
-    void openSocket();
     void receivePacket(std::size_t length);
 
 public:

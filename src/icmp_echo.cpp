@@ -11,8 +11,11 @@
 using namespace asio;
 
 void IcmpEcho::receivePacket(std::size_t length) {
+    // Get the reply
     replyBuffer.commit(length);
     std::istream reply(&replyBuffer);
+
+    // Parse headers
     IPv4Header ipHeader(reply);
     IcmpHeader icmpHeader(reply);
 
@@ -21,7 +24,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
             this->replyAddress = Ipv4Address(ipHeader.source());
         }
     } else if (icmpHeader.type() == IcmpHeader::timeExceeded) {
-        // Start of the packet is included in the icmp tll exceeded message
+        // Start of the original packet is included in the icmp tll exceeded message
         IPv4Header originalIpHeader(reply);
         IcmpHeader originalIcmpHeader(reply);
 
@@ -29,7 +32,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
             this->replyAddress = Ipv4Address(ipHeader.source());
         }
     } else {
-        // Not found: Check the next packet
+        // This packet was something else: check next packet
         this->replyBuffer.consume(this->replyBuffer.size());
         socket->async_receive(replyBuffer.prepare(65536), std::bind(&IcmpEcho::receivePacket, this, std::placeholders::_2));
     }
@@ -37,11 +40,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
 
 
 IcmpEcho::IcmpEcho(Ipv4Address destination, int ttl) {
-    ip::icmp::resolver resolver(ioContext);
-    ip::icmp::endpoint endpoint = *resolver.resolve(ip::icmp::v4(), destination.asString(), "").begin();
-
-    ip::icmp::endpoint localEndpoint(ip::icmp::v4(), 0);
-
+    // Open the socket
     this->socket = new ip::icmp::socket(ioContext);
     socket->open(ip::icmp::v4());
     socket->set_option(ip::unicast::hops(ttl));
@@ -50,12 +49,16 @@ IcmpEcho::IcmpEcho(Ipv4Address destination, int ttl) {
     std::stringstream requestBuffer;
     IcmpHeader::buildEchoRequest(this->identifier, this->sequenceNumber, requestBuffer);
 
+    // Send the packet
+    ip::icmp::resolver resolver(ioContext);
+    ip::icmp::endpoint endpoint = *resolver.resolve(ip::icmp::v4(), destination.asString(), "").begin();
     socket->send_to(asio::buffer(requestBuffer.str()), endpoint);
     socket->async_receive(replyBuffer.prepare(65536), std::bind(&IcmpEcho::receivePacket, this, std::placeholders::_2));
 
     // Wait for a response, Timeout after 1 second
     ioContext.run_for(std::chrono::milliseconds(1000));
 
+    // Close the socket
     socket->close();
     delete this->socket;
 }

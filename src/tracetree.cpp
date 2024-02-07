@@ -3,7 +3,7 @@
 #include <sstream>
 
 // This is used to make sure the IP addresses are printed in order
-bool Hop::CmpByIpOrStr::operator()(const std::string& a, const std::string& b) const {
+bool TraceTree::Hop::CmpByIpOrStr::operator()(const std::string& a, const std::string& b) const {
     auto convertToIp = [](const std::string& str) {
         std::stringstream ss;
         ss << str;
@@ -27,7 +27,7 @@ TraceTree::TraceTree() {
     root.previous = nullptr;
 }
 
-void TraceTree::addRoute(std::vector<std::string> route) {
+void TraceTree::addRoute(std::vector<std::string>& route) {
     Hop* prevHop = &root;
     for (std::string description : route) {
         // Add the hop to the tree if it wasn't already
@@ -43,7 +43,7 @@ void TraceTree::addRoute(std::vector<std::string> route) {
     }
 }
 
-void recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, bool isFirst, bool isLast, bool isRoot) {
+void TraceTree::recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, bool isFirst, bool isLast, bool isRoot) {
     // Print the graph
     std::string childGraphLine = graphLine;
     if (!isRoot) {
@@ -79,7 +79,7 @@ void recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, boo
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const TraceTree& tt) {
-    recursivePrint(os, &tt.root, "", false, true, true);
+std::ostream& operator<<(std::ostream& os, TraceTree& tt) {
+    tt.recursivePrint(os, &tt.root, "", false, true, true);
     return os;
 }

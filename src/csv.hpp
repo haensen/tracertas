@@ -6,7 +6,8 @@
 #include <vector>
 
 /**
- * For reading CSV-files
+ * For reading CSV formatted text.
+ * Assumes the text has a header record.
 */
 class CSV {
     std::vector<std::string> headers;
@@ -15,15 +16,21 @@ class CSV {
     std::vector<std::string> readRow(std::istream& is);
 
 public:
+    /**
+     * @param is Input stream
+    */
     CSV(std::istream& is);
 
     size_t columns();
     size_t rows();
 
-    std::string columnHeader(size_t column);
+    /**
+     * @returns The name of the column header
+    */
+    std::string columnHeader(uint32_t column);
 
-    std::string cell(std::string column, size_t row);
-    std::string cell(size_t column, size_t row);
+    std::string cell(std::string column, uint32_t row);
+    std::string cell(uint32_t column, uint32_t row);
 };
 
 #endif

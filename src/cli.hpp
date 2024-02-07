@@ -15,16 +15,20 @@ class CLI {
     std::istream& istream;
 
     std::stringstream getUserLine();
-    void showRoute(std::vector<std::string> &route);
-    std::vector<std::string> descriptiveRoute(std::vector<Ipv4Address> route);
-    Ipv4Address getAddress(std::string representation);
+    void showRoute(std::vector<std::string>& route);
+    std::vector<std::string> descriptiveRoute(std::vector<Ipv4Address>& route);
+    Ipv4Address getAddress(std::string& representation);
 
-    public:
-        CLI(std::istream& _istream) : istream(_istream) {}
-        /**
-         * Run the CLI-program
-        */
-        void run();
+public:
+    /**
+     * @param _istream User input
+    */
+    CLI(std::istream& _istream) : istream(_istream) {}
+
+    /**
+     * Run the CLI
+    */
+    void run();
 };
 
 #endif

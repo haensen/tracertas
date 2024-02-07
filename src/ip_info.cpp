@@ -8,7 +8,7 @@
 
 bool IpInfo::initialized = false;
 const int64_t IpInfo::UnknownAsn = -1;
-std::map<uint32_t, std::string> IpInfo::asNames;
+std::map<int64_t, std::string> IpInfo::asNames;
 PrefixContainer<int64_t> IpInfo::asNumbers(IpInfo::UnknownAsn);
 PrefixContainer<std::string> IpInfo::ixNames("");
 
@@ -29,6 +29,7 @@ void IpInfo::initializeNetworkToAsn() {
         std::cout << "Cannot open ASN file: " << ASN_IPV4_MAPPING_FILE << std::endl;
     }
 
+    // Parse networks and as numbers
     std::string addressSpace, asNumber;
     while (!file.eof()) {
         file >> addressSpace;
@@ -48,9 +49,10 @@ void IpInfo::initializeAsToOwner() {
         std::cout << "Cannot open ASN file: " << ASN_NUMBER_TO_NAME_FILE << std::endl;
     }
 
+    // Parse AS numbers and names
     CSV csv(file);
-    for (long long i = 0; i < csv.rows(); i++) {
-        uint32_t asn = std::stoll(csv.cell("asn", i));
+    for (uint32_t i = 0; i < csv.rows(); i++) {
+        uint32_t asn = std::stoul(csv.cell("asn", i));
         std::string name = csv.cell("description", i);
         asNames[asn] = name;
     }
@@ -67,6 +69,7 @@ std::string IpInfo::getAsName(int64_t asn) {
     if (iter != asNames.end()) {
         return iter->second;
     }
+    // Not found
     return "";
 }
 
@@ -77,8 +80,9 @@ void IpInfo::initializeIpToIx() {
         std::cout << "Cannot open IX prefix file: " << IX_IPV4_FILE << std::endl;
     }
 
+    // Parse networks and ix names
     CSV csv(file);
-    for (long long i = 0; i < csv.rows(); i++) {
+    for (uint32_t i = 0; i < csv.rows(); i++) {
         std::string prefix = csv.cell("Prefix", i);
         std::string name = csv.cell("Name", i);
         ixNames.addPrefix(prefix, name);

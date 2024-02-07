@@ -19,7 +19,7 @@ std::vector<std::string> CSV::readRow(std::istream& is) {
     std::vector<std::string> row;
     std::string cell = "";
     bool insideQuotation = false;
-    for (int i = 0; i < line.length(); i++) {
+    for (uint32_t i = 0; i < line.length(); i++) {
         char c = line[i];
 
         if (c == '"') {
@@ -35,7 +35,7 @@ std::vector<std::string> CSV::readRow(std::istream& is) {
             cell += c;
         }
     }
-    if (!cell.empty()) row.push_back(cell);
+    if (!cell.empty()) row.push_back(cell); // The last cell did not get pushed in for-loop
 
     return row;
 }
@@ -48,16 +48,16 @@ size_t CSV::rows() {
     return cells.size();
 }
 
-std::string CSV::columnHeader(size_t column) {
+std::string CSV::columnHeader(uint32_t column) {
     return headers[column];
 }
 
-std::string CSV::cell(std::string column, size_t row) {
+std::string CSV::cell(std::string column, uint32_t row) {
     size_t columnInd = 0;
     while (headers[columnInd] != column) { columnInd++; }
     return cell(columnInd, row);
 }
 
-std::string CSV::cell(size_t column, size_t row) {
+std::string CSV::cell(uint32_t column, uint32_t row) {
     return cells[row][column];
 }
