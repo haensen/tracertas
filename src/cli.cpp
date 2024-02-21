@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdint>
 
 std::stringstream CLI::getUserLine() {
     std::cout << "Cmd: " << std::flush;

@@ -5,6 +5,7 @@
 
 #include <map>
 #include <vector>
+#include <cstdint>
 
 /**
  * Stores data about subnets and allows retrieving that data by giving some address in the subnet.
@@ -44,7 +45,7 @@ public:
             // Create subnet mask for the given address when mask is maskLength bits long
             uint32_t maskedAddress = (0xFFFFFFFF << (32 - maskLength)) & addr.asUint();
             // Check if the masked address corresponds to any prefix
-            std::map<uint32_t, T>::iterator it = prefixToData[maskLength].find(maskedAddress);
+            auto it = prefixToData[maskLength].find(maskedAddress);
             if (it != prefixToData[maskLength].end()) {
                 return it->second;
             }

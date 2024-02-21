@@ -2,6 +2,7 @@
 #define PROTOCOL_HEADERS_HPP
 
 #include <iostream>
+#include <cstdint>
 
 /**
  * Class for reading IPv4 header according to RFC791

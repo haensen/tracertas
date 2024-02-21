@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 /**
  * For reading CSV formatted text.

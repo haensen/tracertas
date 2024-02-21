@@ -2,6 +2,7 @@
 #define ADDRESS_HPP
 
 #include <string>
+#include <cstdint>
 
 /**
  * @param str IPv4 address to check

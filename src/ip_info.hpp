@@ -6,6 +6,7 @@
 
 #include <string>
 #include <map>
+#include <cstdint>
 
 /**
  * A class for getting info about IP addresses such as AS number
