@@ -3,12 +3,10 @@
 ## Compiling
 
 ```bash
-cmake --build ./build
+cmake --build ./build --target tracertas
 ```
 
-The executables will be in ```./build/tracertas/```.
-```tracertas``` is the actual program.
-```tracertas_test``` runs the unit tests.
+The program will be in ```./build/tracertas/```.
 
 ## Commands
 
@@ -109,3 +107,28 @@ $>
 ## Notes
 
 ICMP messages need to be allowed by the firewall.
+
+## Tests
+
+### Building
+```bash
+cmake build ./build --target tracertas_test
+```
+
+### Running
+```bash
+cd ./build/tracertas
+./tracertas_test
+```
+or
+```bash
+cd ./build
+ctest
+```
+
+### Coverage report
+For coverage report gcov and lcov need to be installed and the tests built using GCC. Run first the tests once and then the script.
+```bash
+./generateCoverageReport.sh
+```
+Open ```coverageReport/index.html``` in browser.

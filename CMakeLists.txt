@@ -3,6 +3,12 @@ project(TracertAs)
 
 set(RELEASE_PATH "${CMAKE_CURRENT_BINARY_DIR}/tracertas")
 
+set(GEN_COVERAGE OFF)
+find_program(GCOV_FIND_RESULT gcov)
+if(NOT ${GCOV_FIND_RESULT} STREQUAL GCOV_FIND_RESULT-NOTFOUND AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(GEN_COVERAGE ON)
+endif()
+
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -71,6 +77,10 @@ target_link_libraries(
 )
 include(GoogleTest)
 gtest_discover_tests(tracertas_test WORKING_DIRECTORY ${RELEASE_PATH})
+if (GEN_COVERAGE)
+  target_compile_options(tracertas_test PRIVATE "--coverage")
+  target_link_libraries(tracertas_test gcov)
+endif()
 
 add_executable(
   tracertas
