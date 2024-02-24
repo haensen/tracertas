@@ -11,6 +11,8 @@ TEST(CLI, canRunCommandsWithoutCrashing) {
     ss << "t 2.2.2.2" << std::endl;
     ss << "t google.com" << std::endl;
     ss << "s" << std::endl;
+    ss << "aoeuNotACommand oeu" << std::endl;
+    ss << "t nonexistingAupaup" << std::endl;
     ss << "exit" << std::endl;
     CLI cli(ss);
     cli.run();
