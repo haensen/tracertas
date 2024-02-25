@@ -15,9 +15,9 @@ class CLI {
     std::istream& istream;
 
     std::stringstream getUserLine();
-    void showRoute(std::vector<std::string>& route);
-    std::vector<std::string> descriptiveRoute(std::vector<Ipv4Address>& route);
-    Ipv4Address getAddress(std::string& representation);
+    void showRoute(const std::vector<std::string>& route);
+    std::vector<std::string> descriptiveRoute(const std::vector<Ipv4Address>& route);
+    Ipv4Address getAddress(const std::string& representation);
 
 public:
     /**

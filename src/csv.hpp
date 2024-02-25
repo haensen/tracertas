@@ -30,7 +30,7 @@ public:
     */
     std::string columnHeader(uint32_t column);
 
-    std::string cell(std::string column, uint32_t row);
+    std::string cell(const std::string& column, uint32_t row);
     std::string cell(uint32_t column, uint32_t row);
 };
 

@@ -27,7 +27,7 @@ TraceTree::TraceTree() {
     root.previous = nullptr;
 }
 
-void TraceTree::addRoute(std::vector<std::string>& route) {
+void TraceTree::addRoute(const std::vector<std::string>& route) {
     Hop* prevHop = &root;
     for (std::string description : route) {
         // Add the hop to the tree if it wasn't already
@@ -43,7 +43,7 @@ void TraceTree::addRoute(std::vector<std::string>& route) {
     }
 }
 
-void TraceTree::recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, bool isFirst, bool isLast, bool isRoot) {
+void TraceTree::recursivePrint(std::ostream& os, const Hop* hop, const std::string& graphLine, bool isFirst, bool isLast, bool isRoot) {
     // Print the graph
     std::string childGraphLine = graphLine;
     if (!isRoot) {

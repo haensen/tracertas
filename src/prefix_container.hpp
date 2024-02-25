@@ -19,13 +19,13 @@ public:
     /**
      * @param defaultValue Sets the value that is used when IP doesn't match any prefixes
     */
-    PrefixContainer(T defaultValue) : defaultValue(defaultValue) {}
+    PrefixContainer(const T& defaultValue) : defaultValue(defaultValue) {}
 
     /**
      * Adds network/prefix to the container
      * @param prefix Ip4 network in CIDR notation eg. 127.0.0.1/24
     */
-    void addPrefix(std::string prefix, T data) {
+    void addPrefix(const std::string& prefix, const T& data) {
         // Split prefix
         const int delimeterInd = prefix.find("/");
         std::string networkStr = prefix.substr(0, delimeterInd);

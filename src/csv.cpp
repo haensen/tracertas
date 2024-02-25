@@ -52,7 +52,7 @@ std::string CSV::columnHeader(uint32_t column) {
     return headers[column];
 }
 
-std::string CSV::cell(std::string column, uint32_t row) {
+std::string CSV::cell(const std::string& column, uint32_t row) {
     size_t columnInd = 0;
     while (headers[columnInd] != column) { columnInd++; }
     return cell(columnInd, row);

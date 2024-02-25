@@ -15,7 +15,7 @@ Ipv4Address DNS::resolve(std::string dnsName) {
                 return Ipv4Address(entry.endpoint().address().to_string());
             }
         }
-    } catch (asio::system_error e) {
+    } catch (const asio::system_error& e) {
         // This is thrown if the host name doesn't exist
     }
 

@@ -8,7 +8,7 @@
  * @param str IPv4 address to check
  * @returns True if the given string is a valid IPv4 address.
 */
-bool isIpv4Address(std::string str);
+bool isIpv4Address(const std::string& str);
 
 /**
  * A Class for representing a IPv4 address.

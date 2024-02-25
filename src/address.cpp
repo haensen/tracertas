@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <sstream>
 
-bool isIpv4Address(std::string str) {
+bool isIpv4Address(const std::string& str) {
     int a, b, c, d;
     int scanned = sscanf_s(str.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d);
     if (scanned != 4) return false;

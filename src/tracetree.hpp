@@ -26,12 +26,12 @@ class TraceTree {
 
     Hop root;
 
-    void recursivePrint(std::ostream& os, const Hop* hop, std::string graphLine, bool isFirst, bool isLast, bool isRoot);
+    void recursivePrint(std::ostream& os, const Hop* hop, const std::string& graphLine, bool isFirst, bool isLast, bool isRoot);
 
 public:
     TraceTree();
 
-    void addRoute(std::vector<std::string>& route);
+    void addRoute(const std::vector<std::string>& route);
 
     /**
      * Outputs a human readable representation of the tree

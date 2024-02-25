@@ -14,8 +14,8 @@ std::stringstream CLI::getUserLine() {
     return std::stringstream(userLineStr);
 }
 
-void CLI::showRoute(std::vector<std::string>& route) {
-    for (std::string& hop : route) {
+void CLI::showRoute(const std::vector<std::string>& route) {
+    for (const std::string& hop : route) {
         std::cout << hop << std::endl;
     }
 }
@@ -23,7 +23,7 @@ void CLI::showRoute(std::vector<std::string>& route) {
 /**
  * @returns Same route with more info
 */
-std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address>& route) {
+std::vector<std::string> CLI::descriptiveRoute(const std::vector<Ipv4Address>& route) {
     std::vector<std::string> descriptive;
     for (auto hop : route) {
         std::stringstream hopDesc;
@@ -52,7 +52,7 @@ std::vector<std::string> CLI::descriptiveRoute(std::vector<Ipv4Address>& route) 
 /**
  * Converts DNS name or IPv4 address to IPv4Address
 */
-Ipv4Address CLI::getAddress(std::string& representation) {
+Ipv4Address CLI::getAddress(const std::string& representation) {
     if (isIpv4Address(representation)) return Ipv4Address(representation);
     return DNS().resolve(representation);
 }
