@@ -10,4 +10,6 @@
 
 #define IX_IPV4_FILE "ix-networks-src/ix_ip4.csv"
 
+#define ECHO_TIMEOUT_MS 500
+
 #endif

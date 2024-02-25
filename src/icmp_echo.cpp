@@ -1,6 +1,7 @@
 #include "icmp_echo.hpp"
 #include "protocol_headers.hpp"
 #include "address.hpp"
+#include "config.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -55,8 +56,8 @@ IcmpEcho::IcmpEcho(Ipv4Address destination, int ttl) {
     socket->send_to(asio::buffer(requestBuffer.str()), endpoint);
     socket->async_receive(replyBuffer.prepare(65536), std::bind(&IcmpEcho::receivePacket, this, std::placeholders::_2));
 
-    // Wait for a response, Timeout after 1 second
-    ioContext.run_for(std::chrono::milliseconds(1000));
+    // Wait for a response for some milliseconds
+    ioContext.run_for(std::chrono::milliseconds(ECHO_TIMEOUT_MS));
 
     // Close the socket
     socket->close();
