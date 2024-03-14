@@ -116,6 +116,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(ix-networks)
 
+set_target_properties(tracertas PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${RELEASE_PATH})
+set_target_properties(tracertas_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${RELEASE_PATH})
+set_target_properties(tracertas PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${RELEASE_PATH})
+set_target_properties(tracertas_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${RELEASE_PATH})
 set_target_properties(tracertas PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
 set_target_properties(tracertas_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${RELEASE_PATH})
 
