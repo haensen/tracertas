@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <sstream>
 
+#ifdef __GNUC__
+#define sscanf_s sscanf
+#endif
+
 bool isIpv4Address(const std::string& str) {
     int a, b, c, d;
     int scanned = sscanf_s(str.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d);
