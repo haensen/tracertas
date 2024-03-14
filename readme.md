@@ -3,6 +3,8 @@
 ## Compiling
 
 ```bash
+mkdir build
+cmake -B ./build
 cmake --build ./build --target tracertas
 ```
 
@@ -112,7 +114,9 @@ ICMP messages need to be allowed by the firewall.
 
 ### Building
 ```bash
-cmake build ./build --target tracertas_test
+mkdir build
+cmake -B ./build
+cmake --build ./build --target tracertas_test
 ```
 
 ### Running
