@@ -7,7 +7,7 @@ std::vector<Ipv4Address> tracert(Ipv4Address destination, std::function<Ipv4Addr
     std::vector<Ipv4Address> hops;
 
     const int maxHops = 30;
-    for (int i = 0; i < maxHops; i++) {
+    for (int i = 1; i < maxHops; i++) {
         Ipv4Address responder = packetSender(destination, i);
         hops.push_back(responder);
 
@@ -18,6 +18,6 @@ std::vector<Ipv4Address> tracert(Ipv4Address destination, std::function<Ipv4Addr
 }
 
 Ipv4Address sendPacket(Ipv4Address dest, int ttl) {
-    IcmpEcho echo(Ipv4Address(dest), ttl);
-    return echo.returnAddress().asString();
+    IcmpEcho echo(dest, ttl);
+    return echo.returnAddress();
 }

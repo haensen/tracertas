@@ -25,7 +25,7 @@ void IcmpEcho::receivePacket(std::size_t length) {
             this->replyAddress = Ipv4Address(ipHeader.source());
         }
     } else if (icmpHeader.type() == IcmpHeader::timeExceeded) {
-        // Start of the original packet is included in the icmp tll exceeded message
+        // Start of the original packet is included in the icmp ttl exceeded message
         IPv4Header originalIpHeader(reply);
         IcmpHeader originalIcmpHeader(reply);
 

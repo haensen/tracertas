@@ -63,6 +63,7 @@ list(APPEND tests
   test/dns_test.cpp
   test/csv_test.cpp
   test/prefix_container_test.cpp
+  test/tracert_test.cpp
 )
 
 add_executable(
