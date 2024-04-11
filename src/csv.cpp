@@ -3,20 +3,23 @@
 #include <sstream>
 
 CSV::CSV(std::istream& is) {
-    headers = readRow(is);
+    readRow(is, headers);
     while (!is.eof()) {
-        std::vector<std::string> row = readRow(is);
-        if (!row.empty()) cells.push_back(row);
+        cells.push_back(std::vector<std::string>());
+        readRow(is, cells.back());
+        if (cells.back().empty()) cells.pop_back();
     }
 }
 
-std::vector<std::string> CSV::readRow(std::istream& is) {
+void CSV::readRow(std::istream& is, std::vector<std::string>& row) {
+    // Empty the row container
+    row.clear();
+
     // Read a line
     std::string line;
     std::getline(is, line);
 
     // Parse the cells from the line
-    std::vector<std::string> row;
     std::string cell = "";
     bool insideQuotation = false;
     for (uint32_t i = 0; i < line.length(); i++) {
@@ -29,15 +32,13 @@ std::vector<std::string> CSV::readRow(std::istream& is) {
                 insideQuotation = true;
             }
         } else if (c == ',' && !insideQuotation) {
-            row.push_back(cell);
+            row.push_back(std::move(cell));
             cell = "";
         } else {
             cell += c;
         }
     }
-    if (!cell.empty()) row.push_back(cell); // The last cell did not get pushed in for-loop
-
-    return row;
+    if (!cell.empty()) row.push_back(std::move(cell)); // The last cell did not get pushed in for-loop
 }
 
 size_t CSV::columns() {
@@ -52,10 +53,19 @@ std::string CSV::columnHeader(uint32_t column) {
     return headers[column];
 }
 
+int64_t CSV::columnIndex(const std::string& columnName) {
+    int64_t columnInd = -1;
+    for (int i = 0; i < columns(); i++) {
+        if (headers[i] == columnName) {
+            columnInd = i;
+            break;
+        }
+    }
+    return columnInd;
+}
+
 std::string CSV::cell(const std::string& column, uint32_t row) {
-    size_t columnInd = 0;
-    while (headers[columnInd] != column) { columnInd++; }
-    return cell(columnInd, row);
+    return cell(columnIndex(column), row);
 }
 
 std::string CSV::cell(uint32_t column, uint32_t row) {

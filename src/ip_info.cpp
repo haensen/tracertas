@@ -15,6 +15,7 @@ PrefixContainer<std::string> IpInfo::ixNames("");
 IpInfo::IpInfo() {
     // Load the Prefixes and ASNs only once from the file
     if (!this->initialized) {
+        std::ios::sync_with_stdio(false);
         initializeNetworkToAsn();
         initializeAsToOwner();
         initializeIpToIx();
@@ -31,10 +32,7 @@ void IpInfo::initializeNetworkToAsn() {
 
     // Parse networks and as numbers
     std::string addressSpace, asNumber;
-    while (!file.eof()) {
-        file >> addressSpace;
-        file >> asNumber;
-
+    while (file >> addressSpace && file >> asNumber) {
         uint32_t asn = std::stoul(asNumber);
         asNumbers.addPrefix(addressSpace, asn);
     }
@@ -51,9 +49,11 @@ void IpInfo::initializeAsToOwner() {
 
     // Parse AS numbers and names
     CSV csv(file);
+    int64_t asnColumn = csv.columnIndex(std::string("asn"));
+    int64_t nameColumn = csv.columnIndex(std::string("description"));
     for (uint32_t i = 0; i < csv.rows(); i++) {
-        uint32_t asn = std::stoul(csv.cell("asn", i));
-        std::string name = csv.cell("description", i);
+        uint32_t asn = std::stoul(csv.cell(asnColumn, i));
+        std::string name = csv.cell(nameColumn, i);
         asNames[asn] = name;
     }
 
@@ -82,9 +82,11 @@ void IpInfo::initializeIpToIx() {
 
     // Parse networks and ix names
     CSV csv(file);
+    int64_t prefixIndex = csv.columnIndex(std::string("Prefix"));
+    int64_t nameIndex = csv.columnIndex(std::string("Name"));
     for (uint32_t i = 0; i < csv.rows(); i++) {
-        std::string prefix = csv.cell("Prefix", i);
-        std::string name = csv.cell("Name", i);
+        std::string prefix = csv.cell(prefixIndex, i);
+        std::string name = csv.cell(nameIndex, i);
         ixNames.addPrefix(prefix, name);
     }
 
