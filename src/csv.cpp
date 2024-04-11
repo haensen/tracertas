@@ -12,9 +12,6 @@ CSV::CSV(std::istream& is) {
 }
 
 void CSV::readRow(std::istream& is, std::vector<std::string>& row) {
-    // Empty the row container
-    row.clear();
-
     // Read a line
     std::string line;
     std::getline(is, line);

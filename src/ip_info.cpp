@@ -31,7 +31,7 @@ void IpInfo::initializeNetworkToAsn() {
     }
 
     // Parse networks and as numbers
-    const int recordSize = 4 + 1 + 4;
+    const int recordSize = 4 + 1 + 4; // 32-bit network, 1 byte for mask length and 32-bit AS number
     uint8_t buffer[recordSize];
     while (file.read((char*)buffer, recordSize)) {
         uint32_t network = buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3];

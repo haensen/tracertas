@@ -14,6 +14,9 @@ TEST(csv, parseValidCsv) {
     EXPECT_EQ(csv.columns(), 3);
     EXPECT_EQ(csv.rows(), 4);
 
+    EXPECT_EQ(csv.columnIndex("column1"), 0);
+    EXPECT_EQ(csv.columnIndex("non-existent"), -1);
+
     EXPECT_EQ(csv.columnHeader(0), "column1");
     EXPECT_EQ(csv.columnHeader(1), "column2");
     EXPECT_EQ(csv.columnHeader(2), "column3");
