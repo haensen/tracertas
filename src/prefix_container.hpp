@@ -34,6 +34,15 @@ public:
         int maskLength = std::stoi(maskLengthStr);
 
         // Add prefix
+        addPrefix(network, maskLength, data);
+    }
+
+    /**
+     * Adds prefix to container.
+     * @param network
+     * @param mask Amount of bits in the mask
+    */
+    void addPrefix(uint32_t network, int maskLength, const T& data) {
         prefixToData[maskLength][network] = data;
     }
 

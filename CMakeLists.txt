@@ -131,3 +131,6 @@ file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/ix-networks-src DESTINATION ${RELEAS
 if(NOT EXISTS ${RELEASE_PATH}/asPrefixes.txt)
   file(DOWNLOAD https://thyme.apnic.net/current/data-raw-table ${RELEASE_PATH}/asPrefixes.txt)
 endif()
+
+file(COPY ${CMAKE_CURRENT_BINARY_DIR}/../txt2bin.py DESTINATION ${RELEASE_PATH})
+execute_process(COMMAND python3 ${RELEASE_PATH}/txt2bin.py)

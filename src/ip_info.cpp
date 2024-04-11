@@ -25,16 +25,19 @@ IpInfo::IpInfo() {
 
 void IpInfo::initializeNetworkToAsn() {
     // Open the file
-    std::ifstream file(ASN_IPV4_MAPPING_FILE);
+    std::ifstream file(ASN_IPV4_MAPPING_FILE, std::ios::binary);
     if (!file.is_open()) {
         std::cout << "Cannot open ASN file: " << ASN_IPV4_MAPPING_FILE << std::endl;
     }
 
     // Parse networks and as numbers
-    std::string addressSpace, asNumber;
-    while (file >> addressSpace && file >> asNumber) {
-        uint32_t asn = std::stoul(asNumber);
-        asNumbers.addPrefix(addressSpace, asn);
+    const int recordSize = 4 + 1 + 4;
+    uint8_t buffer[recordSize];
+    while (file.read((char*)buffer, recordSize)) {
+        uint32_t network = buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3];
+        int maskLength = buffer[4];
+        uint32_t asn = buffer[5] << 24 | buffer[6] << 16 | buffer[7] << 8 | buffer[8];
+        asNumbers.addPrefix(network, maskLength, asn);
     }
 
     file.close();
