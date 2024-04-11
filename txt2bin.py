@@ -1,11 +1,13 @@
 print("Converting as number prefix file to binary...")
 
 import os
+import sys
 path = os.path.dirname(__file__)
-asnBinFilePath = path + "/asPrefixes.bin"
+asnTxtFilePath = sys.argv[1]
+asnBinFilePath = sys.argv[2]
 
 if not os.path.exists(asnBinFilePath):
-    asnumberfile = open(path + "/asPrefixes.txt")
+    asnumberfile = open(asnTxtFilePath)
     asnBinFile = open(asnBinFilePath, "wb")
     for line in asnumberfile:
         cidr, asNumber = line.split()

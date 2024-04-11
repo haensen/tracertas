@@ -128,9 +128,7 @@ file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/asn-info-src DESTINATION ${RELEASE_P
 
 file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_deps/ix-networks-src DESTINATION ${RELEASE_PATH})
 
-if(NOT EXISTS ${RELEASE_PATH}/asPrefixes.txt)
-  file(DOWNLOAD https://thyme.apnic.net/current/data-raw-table ${RELEASE_PATH}/asPrefixes.txt)
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/asPrefixes.txt)
+  file(DOWNLOAD https://thyme.apnic.net/current/data-raw-table ${CMAKE_CURRENT_BINARY_DIR}/asPrefixes.txt)
+  execute_process(COMMAND python3 ${CMAKE_CURRENT_BINARY_DIR}/../txt2bin.py ${CMAKE_CURRENT_BINARY_DIR}/asPrefixes.txt ${RELEASE_PATH}/asPrefixes.bin)
 endif()
-
-file(COPY ${CMAKE_CURRENT_BINARY_DIR}/../txt2bin.py DESTINATION ${RELEASE_PATH})
-execute_process(COMMAND python3 ${RELEASE_PATH}/txt2bin.py)
